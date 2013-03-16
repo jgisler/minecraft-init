@@ -21,18 +21,13 @@
 # Option for killing server in an emergency by jbondhus
 
 # Loads config file
-
-if [ -L $0 ]
-then
-	source `readlink -e $0 | sed "s:[^/]*$:config:"`
-else
-	source `echo $0 | sed "s:[^/]*$:config:"`
-fi
+CONFIG="/etc/minecraft/$(basename "${0}").conf"
+source ${CONFIG}
 
 if [ "$SERVICE" == "" ]
 then
-	echo "Couldn't load config file, please edit config.example and rename it to config"
-	logger -t minecraft-init "Couldn't load config file, please edit config.example and rename it to config"
+	echo "Couldn't load config file, please edit config.example and rename it to ${CONFIG}"
+	logger -t minecraft-init "Couldn't load config file, please edit config.example and rename it to ${CONFIG}"
 	exit
 fi
 
